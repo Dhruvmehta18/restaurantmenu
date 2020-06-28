@@ -9,6 +9,13 @@ import Home from './HomeComponent';
 import ContactUs from './ContactComponent';
 import About from './AboutComponent';
 import {Icon} from 'react-native-elements';
+import {connect} from 'react-redux';
+import {
+  fetchDishes,
+  fetchComments,
+  fetchPromos,
+  fetchLeaders,
+} from '../redux/ActionCreators';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -16,6 +23,13 @@ const Drawer = createDrawerNavigator();
 class Main extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    this.props.fetchDishes();
+    this.props.fetchComments();
+    this.props.fetchPromos();
+    this.props.fetchLeaders();
   }
 
   render() {
@@ -149,4 +163,23 @@ const MenuScreen = () => {
   );
 };
 
-export default Main;
+const mapStateToProps = state => {
+  return {
+    dishes: state.dishes,
+    comments: state.comments,
+    promotions: state.promotions,
+    leaders: state.leaders,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  fetchDishes: () => dispatch(fetchDishes()),
+  fetchComments: () => dispatch(fetchComments()),
+  fetchPromos: () => dispatch(fetchPromos()),
+  fetchLeaders: () => dispatch(fetchLeaders()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Main);

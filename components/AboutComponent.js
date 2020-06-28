@@ -1,7 +1,8 @@
 import React from 'react';
 import {ScrollView, Text} from 'react-native';
 import {Card, ListItem} from 'react-native-elements';
-import {LEADERS} from '../shared/leaders';
+import {connect} from 'react-redux';
+import {baseUrl} from '../shared/baseUrl';
 
 const History = ({history}) => {
   return (
@@ -13,7 +14,7 @@ const History = ({history}) => {
   );
 };
 
-const About = () => {
+const About = props => {
   const history =
     'Started in 2010, Ristorante con Fusion quickly established itself as a culinary icon par excellence in Hong Kong. With its unique brand of world fusion cuisine that can be found nowhere else, it enjoys patronage from the A-list clientele in Hong Kong.  Featuring four of the best three-star Michelin chefs in the world, you never know what will arrive on your plate the next time you visit us.\n' +
     '\n' +
@@ -22,11 +23,11 @@ const About = () => {
     <ScrollView>
       <History history={history} />
       <Card title="Corporate Leadership">
-        {LEADERS.map(leader => {
+        {props.leaders.leaders.map(leader => {
           return (
             <ListItem
               key={leader.id}
-              leftAvatar={{source: require('./images/alberto.png')}}
+              leftAvatar={{source: {uri: baseUrl + leader.image}}}
               title={leader.name}
               subtitle={leader.description}
             />
@@ -37,4 +38,13 @@ const About = () => {
   );
 };
 
-export default About;
+const mapStateToProps = state => {
+  return {
+    leaders: state.leaders,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null,
+)(About);
