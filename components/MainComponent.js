@@ -16,6 +16,7 @@ import {
   fetchPromos,
   fetchLeaders,
 } from '../redux/ActionCreators';
+import Reservation from './ReservationComponent';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -69,6 +70,15 @@ class Main extends Component {
             options={{
               drawerIcon: () => (
                 <Icon name="address-card" type="font-awesome-5" size={22} />
+              ),
+            }}
+          />
+          <Drawer.Screen
+            name="Registration"
+            component={ReservationScreen}
+            options={{
+              drawerIcon: () => (
+                <Icon name="utensils" type="font-awesome-5" size={22} />
               ),
             }}
           />
@@ -152,13 +162,34 @@ const MenuScreen = () => {
           headerLeft: props => (
             <Icon
               name="menu"
-              size={24}
+              size={22}
               onPress={() => navigation.toggleDrawer()}
             />
           ),
         })}
       />
       <Stack.Screen name="Dishdetail" component={DishDetail} />
+    </Stack.Navigator>
+  );
+};
+
+const ReservationScreen = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Reserve Table"
+        component={Reservation}
+        options={({navigation, route}) => ({
+          title: route.name,
+          headerLeft: props => (
+            <Icon
+              name="menu"
+              size={24}
+              onPress={() => navigation.toggleDrawer()}
+            />
+          ),
+        })}
+      />
     </Stack.Navigator>
   );
 };
